@@ -1,15 +1,18 @@
 import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
+import MessageController from '@controllers/MessageController'
+import UsersController from '@controllers/UsersController'
+
+const users = []
+const messages = [];
+
 
 class App {
   public express:express.Application
 
   public constructor() {
     this.express = express()
-
     this.middlewares()
-    this.database()
     this.routes()
   }
 
@@ -18,15 +21,16 @@ class App {
     this.express.use(cors())
   }
 
-  private database(): void {
-    mongoose.connect('mongodb://localhost:27017/tsnode', {
-      useNewUrlParser: true
-    })
-  }
-
   private routes(): void {
     this.express.get('/', (req, res) => {
-      return res.send('Hello World')
+      return res.send('Welcome to POO_MESSAGE API ⚡️⚡️⚡️')
+    })
+    this.express.get('/messages', (req, res) => {
+      MessageController.index(req, res)
+    })
+
+    this.express.get('/users', (req, res) => {
+      UsersController.index(req, res)
     })
   }
 }
