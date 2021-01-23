@@ -6,6 +6,7 @@ interface IUser {
 }
 
 class UserService {
+
   signup({ name, code }: IUser): User {
     const user = new User(name, code);
     users.push(user.getUser())
@@ -14,7 +15,7 @@ class UserService {
 
   checkUserRegistered(data: IUser): boolean {
     for (let user of users) {
-      if (data.name == user.name || data.code == user.code) {
+      if (data.code == user.code) {
         return true
       }
     }

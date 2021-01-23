@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import MessageService from '@services/MessageService'
-const fetch = require('node-fetch');
 
 export const messages = [
   {
@@ -9,12 +8,12 @@ export const messages = [
       code: '44EE22AA'
     },
     from: {
-      name: 'Maicon',
-      code: '44EE22AA'
+      name: 'Jack',
+      code: 'ZZAA22BB'
     },
     message: {
       subject: 'Teste',
-      body: 'Olá amigo isso é um teste'
+      body: 'Olá amigo isso é um teste...'
     }
   },
 ];
@@ -24,23 +23,22 @@ export default {
     return res.json(messages);
   },
 
-  async send(req: Request, res: Response) {
+  async sendMessage(req: Request, res: Response) {
     const messageService = new MessageService()
     const data = req.body
-    console.log(messages)
-    try {
+    const analyzedData = messageService.checkValidData(data)
+
+    if (analyzedData === 'OK') {
       messageService.sendMessage(data)
       return res.sendStatus(200)
-    } 
-    catch (err) {
-      console.error(err)
-      return res.sendStatus(400)
+    } else {
+      return res.status(400).send(analyzedData);
     }
   },
 
   async getFOOAS(req: Request, res: Response) {
       const messageService = new MessageService()
-      messageService.getFooasMessages()
+      messageService.getFooasOperations()
       const fooaMessages = []
       return res.sendStatus(200)
   },
@@ -51,4 +49,5 @@ export default {
 
     messageService.sendMessage(data)
   }
+
 }

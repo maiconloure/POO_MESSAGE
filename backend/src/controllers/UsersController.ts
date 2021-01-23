@@ -1,4 +1,4 @@
-import { User, users } from '@models/User';
+import { users } from '@models/User';
 import UserService from '@services/UserService';
 import { Request, Response } from 'express'
 

@@ -21,7 +21,7 @@ class App {
   private routes(): void {
     this.express.get('/messages', MessageController.index)
 
-    this.express.post('/message', MessageController.send)
+    this.express.post('/message', MessageController.sendMessage)
     
     this.express.get('/messages/fooas', MessageController.getFOOAS)
 
