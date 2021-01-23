@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import API from '../../services/api';
 import {Component, Select, MessageBox }  from './styled';
+import { useToasts } from 'react-toast-notifications'
 
 interface IUser {
   name: string
   code: string
 }
 
-interface IMessage {
+interface IUsers {
   users: IUser[]
 }
 
-const MessageComponent: React.FC<IMessage> = ({users}) => {
+const MessageComponent: React.FC<IUsers> = ({users}) => {
   const [from, setFrom] = useState("")
   const [to, setTo] = useState("")
   const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
+  const { addToast } = useToasts()
 
   const sendMessage = () => {
     const data = {
@@ -35,10 +37,14 @@ const MessageComponent: React.FC<IMessage> = ({users}) => {
     console.log(data)
     API.post('/message', data)
     .then(res => {
-      console.info(res)
+      console.log(res)
+      addToast('Mensagem enviada com sucesso!', { appearance: 'success', autoDismiss: true })
+
     })
     .catch(err => {
-      console.error(err)
+      console.log(err.response.data)
+      addToast(err.response.data, { appearance: 'error', autoDismiss: true })
+
     })
   }
 
@@ -47,13 +53,11 @@ const MessageComponent: React.FC<IMessage> = ({users}) => {
       <Select>
       <label htmlFor="remetente">Remetente:</label>
 
-      <select name="remetente" defaultValue="default" onChange={(evt) => {
-        setFrom(evt.target.value)
-      }} >
-      <option value="default">Selecione um usuário</option>
+      <select name="remetente" onChange={(evt) => {setFrom(evt.target.value)}}>
+      {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
 
         {users.map( user => (
-        <option value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
+        <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
         ))}
       </select>
       </Select>
@@ -62,11 +66,12 @@ const MessageComponent: React.FC<IMessage> = ({users}) => {
       <label htmlFor="destinatario">Destinatário:</label>
 
       <select name="destinatario" defaultValue="default" onChange={(evt) => setTo(evt.target.value)} >
-      <option value="default">Selecione um usuário</option>
+      {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
 
         {users.map( user => (
-        <option value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
+        <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
         ))}
+
       </select>
       </Select>
       <MessageBox>

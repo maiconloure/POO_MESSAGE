@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeTemplate from './template';
+import API from '../../services/api'
 
 interface IUser {
   name: string
@@ -10,8 +11,21 @@ interface IHome {
   users: IUser[]
 }
 
-const Home: React.FC<IHome> = ({ users }) => {
+interface IUser {
+  name: string
+  code: string
+}
+
+const Home: React.FC = () => {
   const [showPanel, setShowPanel] = useState("Home")
+  const [users, setUsers] = useState<IUser[]>([])
+
+  useEffect(() => {
+    API.get<IUser[]>('/users').then(response => {
+      setUsers(response.data)
+    })
+  }, [showPanel])
+
 
   return (
     <HomeTemplate users={users} showPanel={showPanel} setShowPanel={setShowPanel} />

@@ -44,7 +44,7 @@ const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel 
         
         {showPanel === "signUp" && <SingUpComponent  setShowPanel={setShowPanel} />}
         {showPanel === "message" && <MessageComponent users={users} />}
-        {showPanel === "messageHistory" && <MessageHistoryComponent />}
+        {showPanel === "messageHistory" && <MessageHistoryComponent users={users} />}
         
     </Content>
       

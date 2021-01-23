@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Component = styled.div`
     background-color: #282c34;
     color: #fff;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     text-align: center;
     display: flex;
@@ -13,8 +13,8 @@ export const Component = styled.div`
 `
 
 export const MainBox = styled.div`
-    height: 70%;
-    width: 60%;
+    min-height: 70%;
+    min-width: 50%;
     border-radius: 6px;
     background: #fff;
     display: flex;
@@ -24,6 +24,8 @@ export const MainBox = styled.div`
     background-color: #4169E1;
     /* opacity: 0.9; */
     box-shadow: 1px 1px 12px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    margin: 40px 0;
 `
 
 export const Title = styled.h1`
