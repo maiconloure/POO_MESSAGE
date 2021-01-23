@@ -16,7 +16,8 @@ module.exports = {
   ],
   rules: {
     'space-before-function-paren': ['error', 'never'],
-    '@ typescript-eslint / explicit-module-boundary-types': 'off'
+    '@ typescript-eslint / explicit-module-boundary-types': 'off',
+    "semi": "error"
   },
   overrides: [
     {

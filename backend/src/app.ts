@@ -3,9 +3,6 @@ import cors from 'cors'
 import MessageController from '@controllers/MessageController'
 import UsersController from '@controllers/UsersController'
 
-const users = []
-const messages = [];
-
 
 class App {
   public express:express.Application
@@ -22,16 +19,15 @@ class App {
   }
 
   private routes(): void {
-    this.express.get('/', (req, res) => {
-      return res.send('Welcome to POO_MESSAGE API ⚡️⚡️⚡️')
-    })
-    this.express.get('/messages', (req, res) => {
-      MessageController.index(req, res)
-    })
+    this.express.get('/messages', MessageController.index)
 
-    this.express.get('/users', (req, res) => {
-      UsersController.index(req, res)
-    })
+    this.express.post('/message', MessageController.send)
+    
+    this.express.get('/messages/fooas', MessageController.getFOOAS)
+
+    this.express.get('/users', UsersController.index)
+
+    this.express.post('/users/create', UsersController.create)
   }
 }
 
