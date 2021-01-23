@@ -8,7 +8,7 @@ interface IUser {
 class UserService {
 
   signup({ name, code }: IUser): User {
-    const user = new User(name, code);
+    const user = new User({name, code});
     users.push(user.getUser())
     return user
   }

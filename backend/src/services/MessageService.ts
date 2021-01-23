@@ -27,6 +27,7 @@ interface IMessageService {
   sendMessage(request: IMessageDTO): void
   getFooasOperations():  void
   checkValidData(data: IMessageDTO): string
+  getAllUserMessages(code: string): IMessageDTO[]
 }
 
 
@@ -40,9 +41,9 @@ class MessageService implements IMessageService {
     const messages: IFooasMessage[] = []
     const operations = await fetch(`https://www.foaas.com/operations`).then((res: any) => res.json())
     
-    for (let ops of operations) {
-      if (ops.url.includes(':name/:from')) {
-        messages.push({ name: ops.name, url: ops.url })
+    for (let operation of operations) {
+      if (operation.url.includes(':name/:from')) {
+        messages.push({ name: operation.name, url: operation.url })
       }
     }
     return messages
@@ -56,9 +57,18 @@ class MessageService implements IMessageService {
       return 'Remetente e destinatário devem ser diferentes!'
       
     } else if (message.subject.length < 1 || message.body.length < 1) {
-      return 'Assunto ou mensagem não pode estar em branco!'
+      return 'Assunto ou mensagem não podem estar em branco!'
     }
     return 'OK'
+  }
+
+  getAllUserMessages(code: string) {
+    const userMessages = messages.filter(message => {
+      if (message.to.code === code || message.from.code === code) {
+        return message
+      }
+    })
+    return userMessages
   }
 }
 

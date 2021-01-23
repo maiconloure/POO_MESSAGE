@@ -2,11 +2,16 @@ export let users = [
   { name: "Maicon Lourenço", code: "44EE22AA"},
 ]
 
+interface IUser {
+  name: string
+  code: string
+}
+
 export class User {
   public name: string
   public code: string
 
-  constructor(name: string, code: string) {
+  constructor({ name, code }: IUser) {
     this.name = name
     this.code = code
   }
@@ -19,4 +24,5 @@ export class User {
     this.name = name || this.name
     this.code = code || this.code
   }
+
 }

@@ -19,11 +19,17 @@ export const messages = [
 ];
 
 export default {
-  async index(req: Request, res: Response) {
+  index(req: Request, res: Response) {
     return res.json(messages);
   },
 
-  async sendMessage(req: Request, res: Response) {
+  getUserMessages(req: Request, res: Response) {
+    const messageService = new MessageService()
+    const userMessages = messageService.getAllUserMessages(req.params.code)
+    return res.json(userMessages);
+  },
+
+  sendMessage(req: Request, res: Response) {
     const messageService = new MessageService()
     const data = req.body
     const analyzedData = messageService.checkValidData(data)
@@ -36,14 +42,14 @@ export default {
     }
   },
 
-  async getFOOAS(req: Request, res: Response) {
+  getFOOAS(req: Request, res: Response) {
       const messageService = new MessageService()
       messageService.getFooasOperations()
       const fooaMessages = []
       return res.sendStatus(200)
   },
 
-  async sendFOOAS(req: Request, res: Response) {
+  sendFOOAS(req: Request, res: Response) {
     const messageService = new MessageService()
     const data = req.body
 
