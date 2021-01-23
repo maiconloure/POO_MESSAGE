@@ -4,45 +4,47 @@ import MessageHistoryComponent from '../../components/messageHistory';
 import SingUpComponent from '../../components/signup';
 import {Component, MainBox, Title, OptionsBox, Content, Options, Welcome }  from './styled';
 
-interface IHome {
-  signUp: boolean
-  message: boolean
-  messageHistory: boolean
-  setSignUp: React.Dispatch<React.SetStateAction<boolean>>
-  setMessage: React.Dispatch<React.SetStateAction<boolean>>
-  setMessageHistory:React.Dispatch<React.SetStateAction<boolean>>
+interface IUser {
+  name: string
+  code: string
 }
 
-const HomeTemplate: React.FC<IHome> = ({ signUp, setSignUp, message, setMessage,  messageHistory, setMessageHistory }) => (
+interface IHomeTemplate {
+  users: IUser[]
+  showPanel: string
+  setShowPanel:React.Dispatch<React.SetStateAction<string>>
+}
+
+const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel }) => (
   <Component>
     <MainBox>
 
       <Title>MESSAGE SERVICE</Title>
       <Content>
         <Options>
-                <OptionsBox onClick={() => setSignUp(true)}>
+                <OptionsBox onClick={() => setShowPanel("signUp")}>
                   Cadastrar Usuário
                 </OptionsBox>
-                <OptionsBox onClick={() => setMessage(true)}>
+                <OptionsBox onClick={() => setShowPanel("message")}>
                   Enviar Mensagem
                 </OptionsBox>
-                <OptionsBox onClick={() => setMessageHistory(true)}>
+                <OptionsBox onClick={() => setShowPanel("messageHistory")}>
                   Ver histórico de mensagens
                 </OptionsBox>
-                <OptionsBox>
+                <OptionsBox onClick={() => setShowPanel("Home")}>
                   Sair
                 </OptionsBox>
         </Options>
         
-        {!signUp && !message && !messageHistory && 
+        {showPanel === "Home" && 
         <Welcome>
           <h2>Selecione uma opção para começar...</h2>
         </Welcome>
         }
         
-        {signUp && <SingUpComponent />}
-        {message && <MessageComponent />}
-        {messageHistory && <MessageHistoryComponent />}
+        {showPanel === "signUp" && <SingUpComponent  setShowPanel={setShowPanel} />}
+        {showPanel === "message" && <MessageComponent users={users} />}
+        {showPanel === "messageHistory" && <MessageHistoryComponent />}
         
     </Content>
       

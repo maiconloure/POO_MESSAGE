@@ -22,7 +22,7 @@ export const MainBox = styled.div`
     align-items: center;
     border-radius: 6px;
     background-color: #4169E1;
-    opacity: 0.9;
+    /* opacity: 0.9; */
     box-shadow: 1px 1px 12px 6px rgba(0, 0, 0, 0.2);
 `
 

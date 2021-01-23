@@ -1,37 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import HomeTemplate from './template';
 
-const Home: React.FC = () => {
-  const [signUp, setSignUp] = useState(false);
-  const [message, setMessage] = useState(false)
-  const [messageHistory, setMessageHistory] = useState(false)
-  const [exit, setExit] = useState(false)
+interface IUser {
+  name: string
+  code: string
+}
 
-  // useEffect(() => {
-  //   if (signUp) {
-  //     setMessage(false)
-  //     setMessageHistory(false)
-  //   } 
-  //   if (message) {
-  //     setSignUp(false)
-  //     setMessageHistory(false)
-  //   }
-  //   if (messageHistory) {
-  //     setSignUp(false)
-  //     setMessage(false)
-  //   }
-  //   if (exit) {
-  //     setSignUp(false)
-  //     setMessage(false)
-  //     setMessageHistory(false)
-  //   }
-    
-  // },[signUp, message, messageHistory, exit])
+interface IHome {
+  users: IUser[]
+}
+
+const Home: React.FC<IHome> = ({ users }) => {
+  const [showPanel, setShowPanel] = useState("Home")
 
   return (
-    <HomeTemplate signUp={signUp} setSignUp={setSignUp} 
-    message={message} setMessage={setMessage} 
-    messageHistory={messageHistory} setMessageHistory={setMessageHistory}/>
+    <HomeTemplate users={users} showPanel={showPanel} setShowPanel={setShowPanel} />
   )
 }
 

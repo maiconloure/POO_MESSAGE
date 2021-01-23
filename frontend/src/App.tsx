@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import API from './services/api'
 import {Helmet, HelmetProvider } from 'react-helmet-async';
 import { ToastProvider } from 'react-toast-notifications'
-
-import Home from './pages/home';
 import { GlobalStyle } from './styled';
+import API from './services/api'
+import Home from './pages/home';
 
 
 interface IUser {
@@ -12,7 +11,7 @@ interface IUser {
   code: string
 }
 
-const App =() => {
+const App: React.FC = () => {
   const [users, setUsers] = useState<IUser[]>([])
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const App =() => {
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"rel="stylesheet"/>
       </Helmet>
       <ToastProvider>
-        <Home />
+        <Home users={users} />
       </ToastProvider>
       <GlobalStyle />
       </div>

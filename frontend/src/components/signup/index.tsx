@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import API from '../../pages/home/api';
+import API from '../../services/api';
 import { Component, SignUpForm } from './styled'
 import { useToasts } from 'react-toast-notifications'
 
-const SingUpComponent: React.FC = () => {
+interface ISingUp {
+  setShowPanel:React.Dispatch<React.SetStateAction<string>>
+}
+
+const SingUpComponent: React.FC<ISingUp> = ({ setShowPanel }) => {
   const [name, setName] = useState("")
   const [code, setCode] = useState("")
   const { addToast } = useToasts()
@@ -15,12 +19,11 @@ const SingUpComponent: React.FC = () => {
     console.log(data)
     API.post('/users/create', data)
     .then((res) => {
-      addToast('Saved Successfully', { appearance: 'success' })
+      addToast('Cadastro efetuado com sucesso!', { appearance: 'success', autoDismiss: true })
+      setShowPanel("Home")
     }).catch((err) => {
-      addToast('Bad Request', { appearance: 'error' })
+      addToast('Código já cadastrado!', { appearance: 'error', autoDismiss: true })
     })
-
-    
   }
 
 

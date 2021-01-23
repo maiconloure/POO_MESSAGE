@@ -8,6 +8,7 @@ export const Component = styled.div`
   align-items: center;
   justify-content: center; 
 `
+
 export const SignUpForm = styled.form`
   margin: 50px auto; 
   width:350px;
@@ -35,5 +36,4 @@ export const SignUpForm = styled.form`
     height: 40px;
     cursor: pointer;
   }
-
 `
