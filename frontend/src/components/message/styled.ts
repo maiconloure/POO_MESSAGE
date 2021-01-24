@@ -16,6 +16,7 @@ export const Select = styled.div`
       outline: none;
       font: 500 1rem Inter;
       margin: 10px;
+      max-width: 400px;
   }
 `
 

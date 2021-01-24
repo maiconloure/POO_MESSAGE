@@ -16,11 +16,16 @@ interface IFooasMessage {
   url: string
 }
 
-// DTO - Data Transfer Object(DDD)
 interface IMessageDTO {
   to: IMessageTo
   from: IMessageTo
   message: IMessage
+}
+
+interface IGetFooasMessage {
+  url: string
+  to: string
+  from: string
 }
 
 interface IMessageService {
@@ -39,14 +44,28 @@ class MessageService implements IMessageService {
 
   async getFooasOperations() {
     const messages: IFooasMessage[] = []
-    const operations = await fetch(`https://www.foaas.com/operations`).then((res: any) => res.json())
-    
+    const operations = await fetch('https://www.foaas.com/operations').then((res: any) => res.json())
     for (let operation of operations) {
       if (operation.url.includes(':name/:from')) {
         messages.push({ name: operation.name, url: operation.url })
       }
     }
+    
     return messages
+  }
+
+  async getFooasMessage({url, to, from}: IGetFooasMessage) {
+    const desired = {to: to.replace(/[^\w\s]/gi, ''), from: from.replace(/[^\w\s]/gi, '')}
+    const message = await fetch(`https://www.foaas.com${url}/${desired.to}/${desired.from}`, {
+      method: 'get',
+      headers: { 'Accept': 'application/json' },
+  })
+    .then((res: any) => {
+      return res.json()
+    }).catch((err: any) => {
+      console.error(err)
+    })
+    return message
   }
 
   checkValidData({ to, from, message }: IMessageDTO): string  {

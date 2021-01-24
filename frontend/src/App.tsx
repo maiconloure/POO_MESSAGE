@@ -5,7 +5,6 @@ import { GlobalStyle } from './styled';
 import Home from './pages/home';
 
 
-
 const App: React.FC = () => {
   return (
     <HelmetProvider>

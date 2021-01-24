@@ -18,7 +18,6 @@ interface IHomeTemplate {
 const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel }) => (
   <Component>
     <MainBox>
-
       <Title>MESSAGE SERVICE</Title>
       <Content>
         <Options>
@@ -39,15 +38,13 @@ const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel 
         {showPanel === "Home" && 
         <Welcome>
           <h2>Selecione uma opção para começar...</h2>
-        </Welcome>
-        }
+        </Welcome>}
         
         {showPanel === "signUp" && <SingUpComponent  setShowPanel={setShowPanel} />}
         {showPanel === "message" && <MessageComponent users={users} />}
         {showPanel === "messageHistory" && <MessageHistoryComponent users={users} />}
         
     </Content>
-      
     </MainBox>
   </Component>
 )

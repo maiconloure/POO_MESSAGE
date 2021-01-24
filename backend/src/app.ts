@@ -21,14 +21,16 @@ class App {
   private routes(): void {
     this.express.get('/messages', MessageController.index)
 
-    this.express.get('/messages/:code', MessageController.getUserMessages)
-
     this.express.post('/message', MessageController.sendMessage)
-    
-    this.express.get('/messages/fooas', MessageController.getFOOAS)
+
+    this.express.get('/messages/user/:code', MessageController.getUserMessages)
+
+    this.express.get('/operations/fooas', MessageController.getFOOAS)
+
+    this.express.post('/message/fooas', MessageController.getFOOASMessage)
 
     this.express.get('/users', UsersController.index)
-
+    
     this.express.post('/users/create', UsersController.create)
   }
 }

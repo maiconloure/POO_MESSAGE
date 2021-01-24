@@ -1,25 +1,22 @@
 version: '3.7'
 
 services:
-  app:
-    container_name: poo-api-message
+  api:
+    container_name: oop-api-message
     image: maiconloure/nodepoo
     command: yarn dev
     ports:
       - "3333:3333"
     volumes:
-      - .:/app
+      - ./app
   
   web:
-    container_name: poo-react-message
-    build:
-        context: ./frontend
-        dockerfile: Dockerfile
+    container_name: oop-react-message
     image: react-docker-app
     volumes:
-        - './app'
-        - '/app/node_modules'
+      - '.:/app'
+      - '/app/node_modules'
     ports:
-        - '3000:3000'
+      - 3000:3000
     environment:
-        - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true

@@ -12,7 +12,6 @@ const SingUpComponent: React.FC<ISingUp> = ({ setShowPanel }) => {
   const [code, setCode] = useState("")
   const { addToast } = useToasts()
 
-
   const singUpUser = (evt: any) => {
     evt.preventDefault()
     const data = {name, code}
@@ -25,7 +24,6 @@ const SingUpComponent: React.FC<ISingUp> = ({ setShowPanel }) => {
       addToast('Código já cadastrado!', { appearance: 'error', autoDismiss: true })
     })
   }
-
 
   return (
   <Component>

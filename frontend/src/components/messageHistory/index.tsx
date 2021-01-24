@@ -34,7 +34,7 @@ const MessageHistoryComponent: React.FC<IUsers> = ({users}) => {
   const getUserMessages = (user: string) => {
     const data = user.split('-')
     setCurrentUser(data)
-    API.get(`/messages/${data[1]}`)
+    API.get(`/messages/user/${data[1]}`)
     .then(response => {
       setMessages(response.data)
     })

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import API from '../../services/api';
 import {Component, Select, MessageBox }  from './styled';
 import { useToasts } from 'react-toast-notifications'
+import Modal from './modal';
 
 interface IUser {
   name: string
@@ -11,12 +12,19 @@ interface IUser {
 interface IUsers {
   users: IUser[]
 }
+interface IFooasMessage {
+  name: string
+  url: string
+}
 
 const MessageComponent: React.FC<IUsers> = ({users}) => {
   const [from, setFrom] = useState("")
   const [to, setTo] = useState("")
   const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
+  const [showModal, setShowModal] = useState(true)
+  const [fooas, setFooas] = useState(false)
+  const [fooasOps, setFooasOps] = useState<IFooasMessage[]>([])
   const { addToast } = useToasts()
 
   const sendMessage = () => {
@@ -34,54 +42,90 @@ const MessageComponent: React.FC<IUsers> = ({users}) => {
         body: message
       }
     }
-    console.log(data)
-    API.post('/message', data)
-    .then(res => {
-      console.log(res)
-      addToast('Mensagem enviada com sucesso!', { appearance: 'success', autoDismiss: true })
 
+    API.post('/message', data)
+    .then(() => {
+      addToast('Mensagem enviada com sucesso!', { appearance: 'success', autoDismiss: true })
     })
     .catch(err => {
-      console.log(err.response.data)
       addToast(err.response.data, { appearance: 'error', autoDismiss: true })
-
     })
+  }
+
+  useEffect(() => {
+    if (fooas) {
+      API.get('/operations/fooas')
+      .then(response => {
+        setFooasOps(response.data)
+      }).catch(err => {
+        console.error(err)
+      })
+    }
+
+  }, [fooas])
+
+  const setFooaMessage = (url: string) => {
+    const sanitizeUrl = url.replace('/:name', '').replace('/:from', '')
+    const data = {url: sanitizeUrl, to: to.split('-')[0], from: from.split('-')[0]}
+
+    API.post(`/message/fooas`, data).then(response => {
+      setMessage(response.data.message)
+      console.log(response.data)
+    }).catch(err => {
+      console.error(err)
+    })
+      
   }
 
   return (
     <Component>
       <Select>
-      <label htmlFor="remetente">Remetente:</label>
+        {showModal && <Modal setShowModal={setShowModal} setFooas={setFooas} />}
 
-      <select name="remetente" onChange={(evt) => {setFrom(evt.target.value)}}>
-      {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
+        <label htmlFor="remetente">Remetente:</label>
 
-        {users.map( user => (
-        <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
-        ))}
-      </select>
+        <select name="remetente" onChange={(evt) => {setFrom(evt.target.value)}}>
+        {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
+
+          {users.map( user => (
+          <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
+          ))}
+        </select>
       </Select>
 
       <Select>
-      <label htmlFor="destinatario">Destinatário:</label>
+        <label htmlFor="destinatario">Destinatário:</label>
 
-      <select name="destinatario" defaultValue="default" onChange={(evt) => setTo(evt.target.value)} >
-      {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
+        <select name="destinatario" defaultValue="default" onChange={(evt) => setTo(evt.target.value)} >
+        {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
 
-        {users.map( user => (
-        <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
-        ))}
+          {users.map( user => (
+          <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
+          ))}
 
-      </select>
+        </select>
       </Select>
-      <MessageBox>
-      <label htmlFor="subject">Assunto:</label>
-      <input name="subject" type="text" value={subject} onChange={(evt) => setSubject(evt.target.value)}/>
+        <MessageBox>
 
-      <label htmlFor="message">Mensagem:</label>
-      <textarea name="message" value={message} onChange={(evt) => setMessage(evt.target.value)}/>
+          {fooas ? <Select>
+            <label htmlFor="subject">FOOAS Message</label>
+        <select name="FOOASMessages" onChange={(evt) => {
+          setFooaMessage(evt.target.value)
+        }}>
+        {fooasOps.map( (ops, index) => (
+          <option key={index} value={ops.url}>{ops.name}</option>
+          ))}
+        </select>
+        <input name="subject" type="text" value={subject} placeholder="Assunto" onChange={(evt) => setSubject(evt.target.value)}/>
+        </Select>
+        : <><label htmlFor="subject">Assunto</label>
+          <input name="subject" type="text" value={subject} onChange={(evt) => setSubject(evt.target.value)}/></>}
+
+        <label htmlFor="message">Mensagem:</label>
+        <textarea name="message" value={message} onChange={(evt) => setMessage(evt.target.value)}/>
       </MessageBox>
       <button onClick={() => sendMessage()}>Enviar</button>
+
     </Component>
   )
 }

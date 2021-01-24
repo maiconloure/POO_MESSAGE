@@ -13,15 +13,13 @@ interface IMessage {
   body: string
 }
 
-
-// DTO - Data Transfer Object(DDD)
 interface IMessageDTO {
   to: IMessageTo
   from: IMessageFrom
   message: IMessage
 }
 
-export class User {
+export class Message {
   
   private to: IMessageTo
   private from: IMessageFrom
@@ -36,6 +34,7 @@ export class User {
   getMessage() {
     return { to: this.to, from: this.from, message: this.message }
   }
+  
 }
 
 export const users = []

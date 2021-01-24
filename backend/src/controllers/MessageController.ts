@@ -42,18 +42,18 @@ export default {
     }
   },
 
-  getFOOAS(req: Request, res: Response) {
+  async getFOOAS(req: Request, res: Response) {
       const messageService = new MessageService()
-      messageService.getFooasOperations()
-      const fooaMessages = []
-      return res.sendStatus(200)
+      const fooasMessages = await messageService.getFooasOperations()
+      return res.status(200).send(fooasMessages)
   },
 
-  sendFOOAS(req: Request, res: Response) {
+  async getFOOASMessage(req: Request, res: Response) {
     const messageService = new MessageService()
     const data = req.body
+    const fooasMessages = await messageService.getFooasMessage(data)
+    return res.status(200).send(fooasMessages)
 
-    messageService.sendMessage(data)
   }
 
 }
