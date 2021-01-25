@@ -1,40 +1,31 @@
-interface IMessageTo {
-  name: string
-  code: string
+import { IMessageTo, IMessageFrom, IMessage } from '../interfaces/message'
+import { IMessageDTO } from '../dtos/messageDTO'
+
+interface IMessageModel {
+  getMessage(): IMessageDTO
+  setMessage({ to, from, message }: IMessageDTO): void
 }
 
-interface IMessageFrom {
-  name: string
-  code: string
-}
-
-interface IMessage {
-  subject: string
-  body: string
-}
-
-interface IMessageDTO {
-  to: IMessageTo
-  from: IMessageFrom
-  message: IMessage
-}
-
-export class Message {
-  
+export class Message implements IMessageModel {
   private to: IMessageTo
   private from: IMessageFrom
   private message: IMessage
 
-  constructor({to, from, message}: IMessageDTO) {
+  constructor ({ to, from, message }: IMessageDTO) {
     this.to = to
     this.from = from
     this.message = message
   }
 
-  getMessage() {
+  getMessage () {
     return { to: this.to, from: this.from, message: this.message }
   }
-  
+
+  setMessage ({ to, from, message }: IMessageDTO) {
+    this.to = to
+    this.from = from
+    this.message = message
+  }
 }
 
-export const users = []
+export const messages: Message[] = []

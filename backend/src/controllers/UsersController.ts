@@ -1,18 +1,23 @@
-import { users } from '@models/User';
-import UserService from '@services/UserService';
+import { users } from '@models/User'
+import UserService from '@services/UserService'
 import { Request, Response } from 'express'
 
-export default {
-  async index(req: Request, res: Response) {
-    return res.json(users);
-  },
+export default class UserController {
+  private userService: UserService
 
-  async create(req: Request, res: Response) {
-    const userService = new UserService();
+  constructor () {
+    this.userService = new UserService()
+  }
+
+  async index (req: Request, res: Response) {
+    return res.json(users)
+  }
+
+  async create (req: Request, res: Response) {
     const data = req.body
 
-    if (!userService.checkUserRegistered(data)) {
-      const user = await userService.signup(data)
+    if (!this.userService.checkUserRegistered(data)) {
+      await this.userService.signup(data)
       return res.sendStatus(200)
     }
 

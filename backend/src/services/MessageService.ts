@@ -1,91 +1,68 @@
-import { messages } from '@controllers/MessageController';
-const fetch = require('node-fetch');
-
-interface IMessageTo {
-  name: string
-  code: string
-}
-
-interface IMessage {
-  subject: string
-  body: string
-}
-
-interface IFooasMessage {
-  name: string
-  url: string
-}
-
-interface IMessageDTO {
-  to: IMessageTo
-  from: IMessageTo
-  message: IMessage
-}
-
-interface IGetFooasMessage {
-  url: string
-  to: string
-  from: string
-}
+import { Message, messages } from '@models/Message'
+import { IMessageDTO } from '../dtos/messageDTO'
+import { IFooasMessage, IGetFooasMessage } from '../interfaces/message'
+const fetch = require('node-fetch')
 
 interface IMessageService {
   sendMessage(request: IMessageDTO): void
-  getFooasOperations():  void
+  getFooasOperations(): void
   checkValidData(data: IMessageDTO): string
-  getAllUserMessages(code: string): IMessageDTO[]
+  getAllUserMessages(code: string): Message[]
 }
 
-
 class MessageService implements IMessageService {
-
-  sendMessage({ to, from, message }: IMessageDTO): void {
-    messages.push({ to, from, message })
+  sendMessage ({ to, from, message }: IMessageDTO): void {
+    const newMessage = new Message({ to, from, message })
+    messages.push(newMessage)
   }
 
-  async getFooasOperations() {
+  async getFooasOperations () {
     const messages: IFooasMessage[] = []
-    const operations = await fetch('https://www.foaas.com/operations').then((res: any) => res.json())
-    for (let operation of operations) {
+    const OperationsResponse = await fetch('https://www.foaas.com/operations')
+    const operationsJson = await OperationsResponse.json()
+
+    for (const operation of operationsJson) {
       if (operation.url.includes(':name/:from')) {
         messages.push({ name: operation.name, url: operation.url })
       }
     }
-    
+
     return messages
   }
 
-  async getFooasMessage({url, to, from}: IGetFooasMessage) {
-    const desired = {to: to.replace(/[^\w\s]/gi, ''), from: from.replace(/[^\w\s]/gi, '')}
-    const message = await fetch(`https://www.foaas.com${url}/${desired.to}/${desired.from}`, {
-      method: 'get',
-      headers: { 'Accept': 'application/json' },
-  })
-    .then((res: any) => {
-      return res.json()
-    }).catch((err: any) => {
-      console.error(err)
-    })
+  async getFooasMessage ({ url, to, from }: IGetFooasMessage) {
+    const desired = { to: to.replace(/[^\w\s]/gi, ''), from: from.replace(/[^\w\s]/gi, '') }
+
+    const getFooaMessage = await fetch(`https://www.foaas.com${url}/${desired.to}/${desired.from}`,
+      {
+        method: 'get',
+        headers: { Accept: 'application/json' }
+      })
+
+    const message = getFooaMessage.json()
+
     return message
   }
 
-  checkValidData({ to, from, message }: IMessageDTO): string  {
+  checkValidData ({ to, from, message }: IMessageDTO): string {
     if (to.name === '' || from.name === '') {
       return 'Remetente ou destinatário inválidos!'
-
-    } else if (to.name === from.name || to.code === from.code ) {
+    } else if (to.name === from.name || to.code === from.code) {
       return 'Remetente e destinatário devem ser diferentes!'
-      
     } else if (message.subject.length < 1 || message.body.length < 1) {
       return 'Assunto ou mensagem não podem estar em branco!'
     }
+
     return 'OK'
   }
 
-  getAllUserMessages(code: string) {
-    const userMessages = messages.filter(message => {
+  getAllUserMessages (code: string) {
+    const userMessages = messages.filter(msg => {
+      const message = msg.getMessage()
       if (message.to.code === code || message.from.code === code) {
         return message
       }
+      return false
     })
     return userMessages
   }
