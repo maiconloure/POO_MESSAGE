@@ -1,4 +1,4 @@
-import { Message, messages } from '@models/Message'
+import Message, { messages } from '@models/Message'
 import { IMessageDTO } from '../dtos/messageDTO'
 import { IFooasMessage, IGetFooasMessage } from '../interfaces/message'
 const fetch = require('node-fetch')
@@ -11,12 +11,12 @@ interface IMessageService {
 }
 
 class MessageService implements IMessageService {
-  sendMessage ({ to, from, message }: IMessageDTO): void {
+  public sendMessage ({ to, from, message }: IMessageDTO): void {
     const newMessage = new Message({ to, from, message })
     messages.push(newMessage)
   }
 
-  async getFooasOperations () {
+  public async getFooasOperations () {
     const messages: IFooasMessage[] = []
     const OperationsResponse = await fetch('https://www.foaas.com/operations')
     const operationsJson = await OperationsResponse.json()
@@ -30,7 +30,7 @@ class MessageService implements IMessageService {
     return messages
   }
 
-  async getFooasMessage ({ url, to, from }: IGetFooasMessage) {
+  public async getFooasMessage ({ url, to, from }: IGetFooasMessage) {
     const desired = { to: to.replace(/[^\w\s]/gi, ''), from: from.replace(/[^\w\s]/gi, '') }
 
     const getFooaMessage = await fetch(`https://www.foaas.com${url}/${desired.to}/${desired.from}`,
@@ -44,7 +44,7 @@ class MessageService implements IMessageService {
     return message
   }
 
-  checkValidData ({ to, from, message }: IMessageDTO): string {
+  public checkValidData ({ to, from, message }: IMessageDTO): string {
     if (to.name === '' || from.name === '') {
       return 'Remetente ou destinatário inválidos!'
     } else if (to.name === from.name || to.code === from.code) {
@@ -56,7 +56,7 @@ class MessageService implements IMessageService {
     return 'OK'
   }
 
-  getAllUserMessages (code: string) {
+  public getAllUserMessages (code: string) {
     const userMessages = messages.filter(msg => {
       const message = msg.getMessage()
       if (message.to.code === code || message.from.code === code) {

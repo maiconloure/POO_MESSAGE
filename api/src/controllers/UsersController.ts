@@ -9,11 +9,11 @@ export default class UserController {
     this.userService = new UserService()
   }
 
-  async index (req: Request, res: Response) {
+  public async index (req: Request, res: Response) {
     return res.json(users)
   }
 
-  async create (req: Request, res: Response) {
+  public async create (req: Request, res: Response) {
     const data = req.body
 
     if (!this.userService.checkUserRegistered(data)) {

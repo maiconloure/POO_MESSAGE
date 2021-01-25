@@ -7,12 +7,12 @@ interface IUserService {
 }
 
 class UserService implements IUserService {
-  signup ({ name, code }: IUser): void {
+  public signup ({ name, code }: IUser): void {
     const user = new User({ name, code })
     users.push(user)
   }
 
-  checkUserRegistered (data: IUser): boolean {
+  public checkUserRegistered (data: IUser): boolean {
     for (const user of users) {
       const userData = user.getUser()
       if (data.code === userData.code) {

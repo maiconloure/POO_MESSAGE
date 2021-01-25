@@ -9,16 +9,16 @@ export default class MessageController {
     this.messageService = new MessageService()
   }
 
-  index (req: Request, res: Response) {
+  public index (req: Request, res: Response) {
     return res.json(messages)
   }
 
-  getUserMessages (req: Request, res: Response) {
+  public getUserMessages (req: Request, res: Response) {
     const userMessages = this.messageService.getAllUserMessages(req.params.code)
     return res.json(userMessages)
   }
 
-  sendMessage (req: Request, res: Response) {
+  public sendMessage (req: Request, res: Response) {
     const data = req.body
     const analyzedData = this.messageService.checkValidData(data)
 
@@ -30,12 +30,12 @@ export default class MessageController {
     }
   }
 
-  async getFOOAS (req: Request, res: Response) {
+  public async getFOOAS (req: Request, res: Response) {
     const fooasMessages = await this.messageService.getFooasOperations()
     return res.status(200).send(fooasMessages)
   }
 
-  async getFOOASMessage (req: Request, res: Response) {
+  public async getFOOASMessage (req: Request, res: Response) {
     const data = req.body
     const fooasMessages = await this.messageService.getFooasMessage(data)
     return res.status(200).send(fooasMessages)
