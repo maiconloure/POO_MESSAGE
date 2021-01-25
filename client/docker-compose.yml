@@ -1,17 +1,19 @@
 version: '3.7'
 
 services:
-  app:
-    container_name: react-app
+
+  frontend:
+    container_name: frontend
     build:
         context: .
         dockerfile: Dockerfile
-    command: yarn start
+    stdin_open: true
     volumes:
-        - '.:/app'
+        - '.:/usr/app'
         - '/app/node_modules'
     ports:
         - '3000:3000'
     environment:
-        - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: yarn start
         

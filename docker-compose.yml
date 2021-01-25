@@ -4,24 +4,25 @@ services:
   api:
     container_name: node-api
     build:
-        context: ./backend
+        context: ./api
         dockerfile: Dockerfile
     command: yarn dev
     ports:
       - "3333:3333"
     volumes:
-      - .:/usr/app
-  
-  app:
-    container_name: react-app
+      - ./api:/usr/app
+
+  frontend:
+    container_name: frontend
     build:
-        context: ./frontend
+        context: ./client
         dockerfile: Dockerfile
-    command: yarn start
     volumes:
-        - '.:/app'
+        - './client:/usr/app'
         - '/app/node_modules'
     ports:
         - '3000:3000'
     environment:
-        - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: yarn start
+        

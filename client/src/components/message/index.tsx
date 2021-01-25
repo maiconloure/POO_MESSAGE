@@ -53,12 +53,11 @@ const MessageComponent: React.FC<IUsers> = ({ users }) => {
   }, [fooas])
 
   const setFooaMessage = (url: string) => {
-    const sanitizeUrl = url.replace('/:name', '').replace('/:from', '')
+    const sanitizeUrl = url.replace('/:name/:from', '')
     const data = { url: sanitizeUrl, to: to.split('-')[0], from: from.split('-')[0] }
 
     API.post('/message/fooas', data).then(response => {
       setMessage(response.data.message)
-      console.log(response.data)
     }).catch(err => {
       console.error(err)
     })

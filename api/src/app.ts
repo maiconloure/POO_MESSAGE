@@ -22,19 +22,19 @@ class App {
   }
 
   private routes (): void {
-    this.express.get('/messages', this.messageController.index)
+    this.express.get('/messages', (req, res) => this.messageController.index(req, res))
 
-    this.express.post('/message', this.messageController.sendMessage)
+    this.express.post('/message', (req, res) => this.messageController.sendMessage(req, res))
 
-    this.express.get('/messages/user/:code', this.messageController.getUserMessages)
+    this.express.get('/messages/user/:code', (req, res) => this.messageController.getUserMessages(req, res))
 
-    this.express.get('/operations/fooas', this.messageController.getFOOAS)
+    this.express.get('/operations/fooas', (req, res) => this.messageController.getFOOAS(req, res))
 
-    this.express.post('/message/fooas', this.messageController.getFOOASMessage)
+    this.express.post('/message/fooas', (req, res) => this.messageController.getFOOASMessage(req, res))
 
-    this.express.get('/users', this.usersController.index)
+    this.express.get('/users', (req, res) => this.usersController.index(req, res))
 
-    this.express.post('/users/create', this.usersController.create)
+    this.express.post('/users/create', (req, res) => this.usersController.create(req, res))
   }
 }
 

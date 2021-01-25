@@ -3,7 +3,7 @@ import MessageService from '@services/MessageService'
 import { messages } from '@models/Message'
 
 export default class MessageController {
-  private messageService: MessageService
+  public messageService: MessageService
 
   constructor () {
     this.messageService = new MessageService()
