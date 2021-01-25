@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import { MainComponent, Message, Button } from './styled'
 
 interface IModal {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -13,7 +13,8 @@ const Modal: React.FC<IModal> = ({ setShowModal, setFooas }) => {
         <div>
           <Button onClick={() => {
             setFooas(true)
-            setShowModal(false)}}>Sim</Button>
+            setShowModal(false)
+          }}>Sim</Button>
           <Button onClick={() => {
             setFooas(false)
             setShowModal(false)
@@ -24,29 +25,3 @@ const Modal: React.FC<IModal> = ({ setShowModal, setFooas }) => {
 }
 
 export default Modal
-
-export const MainComponent = styled.div`
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
-  width: 400px;
-  height: 200px;
-  background: #FF6347;
-  padding: 5px 20px;
-  border-radius: 5px;
-`
-
-export const Message = styled.h2`
-  font: 600 1.6rem Inter;
-
-`
-
-export const Button = styled.button`
-  font: 700 1.4rem Inter;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin: 10px 20px;
-`

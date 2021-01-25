@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import HomeTemplate from './template';
+import React, { useEffect, useState } from 'react'
+import HomeTemplate from './template'
 import API from '../../services/api'
-
-interface IUser {
-  name: string
-  code: string
-}
-
-interface IHome {
-  users: IUser[]
-}
-
-interface IUser {
-  name: string
-  code: string
-}
+import { IUser } from '../../interfaces/user'
 
 const Home: React.FC = () => {
-  const [showPanel, setShowPanel] = useState("Home")
+  const [showPanel, setShowPanel] = useState('Home')
   const [users, setUsers] = useState<IUser[]>([])
 
   useEffect(() => {
@@ -26,10 +13,9 @@ const Home: React.FC = () => {
     })
   }, [showPanel])
 
-
   return (
     <HomeTemplate users={users} showPanel={showPanel} setShowPanel={setShowPanel} />
   )
 }
 
-export default Home;
+export default Home

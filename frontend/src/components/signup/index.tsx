@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import API from '../../services/api';
+import React, { useState } from 'react'
+import API from '../../services/api'
 import { Component, SignUpForm } from './styled'
 import { useToasts } from 'react-toast-notifications'
 
@@ -8,21 +8,21 @@ interface ISingUp {
 }
 
 const SingUpComponent: React.FC<ISingUp> = ({ setShowPanel }) => {
-  const [name, setName] = useState("")
-  const [code, setCode] = useState("")
+  const [name, setName] = useState('')
+  const [code, setCode] = useState('')
   const { addToast } = useToasts()
 
   const singUpUser = (evt: any) => {
     evt.preventDefault()
-    const data = {name, code}
-    console.log(data)
+    const data = { name, code }
+
     API.post('/users/create', data)
-    .then((res) => {
-      addToast('Cadastro efetuado com sucesso!', { appearance: 'success', autoDismiss: true })
-      setShowPanel("Home")
-    }).catch((err) => {
-      addToast('Código já cadastrado!', { appearance: 'error', autoDismiss: true })
-    })
+      .then((res) => {
+        addToast('Cadastro efetuado com sucesso!', { appearance: 'success', autoDismiss: true })
+        setShowPanel('Home')
+      }).catch(() => {
+        addToast('Código já cadastrado!', { appearance: 'error', autoDismiss: true })
+      })
   }
 
   return (
@@ -30,7 +30,7 @@ const SingUpComponent: React.FC<ISingUp> = ({ setShowPanel }) => {
     <SignUpForm>
       <div>
       <label htmlFor="fname">Nome: </label>
-      <input type="text" id="fname" name="fname"  value={name} onChange={evt => setName(evt.target.value)} />
+      <input type="text" id="fname" name="fname" value={name} onChange={evt => setName(evt.target.value)} />
       </div>
 
       <div>
@@ -44,4 +44,4 @@ const SingUpComponent: React.FC<ISingUp> = ({ setShowPanel }) => {
   )
 }
 
-export default SingUpComponent;
+export default SingUpComponent

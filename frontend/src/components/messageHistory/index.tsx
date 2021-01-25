@@ -1,46 +1,23 @@
-import React, { useState } from 'react';
-import {Component, Select, MessagesBox, SectionBox, Messages, Message }  from './styled';
-import API from '../../services/api';
+import React, { useState } from 'react'
+import { Component, Select, MessagesBox, SectionBox, Messages, Message } from './styled'
+import API from '../../services/api'
+import { IUsers } from '../../interfaces/user'
+import { IMessageDTO } from '../../interfaces/message'
 
-interface IUser {
-  name: string
-  code: string
-}
-
-interface IUsers {
-  users: IUser[]
-}
-
-interface IMessageTo {
-  name: string
-  code: string
-}
-
-interface IMessage {
-  subject: string
-  body: string
-}
-
-interface IMessageDTO {
-  to: IMessageTo
-  from: IMessageTo
-  message: IMessage
-}
-
-const MessageHistoryComponent: React.FC<IUsers> = ({users}) => {
+const MessageHistoryComponent: React.FC<IUsers> = ({ users }) => {
   const [currentUser, setCurrentUser] = useState<string[]>([])
-  const [messages, setMessages] =  useState<IMessageDTO[]>([])
+  const [messages, setMessages] = useState<IMessageDTO[]>([])
 
   const getUserMessages = (user: string) => {
     const data = user.split('-')
     setCurrentUser(data)
     API.get(`/messages/user/${data[1]}`)
-    .then(response => {
-      setMessages(response.data)
-    })
-    .catch(err => {
-      console.error(err)
-    })
+      .then(response => {
+        setMessages(response.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   return (
@@ -48,10 +25,10 @@ const MessageHistoryComponent: React.FC<IUsers> = ({users}) => {
       <Select>
       <label htmlFor="remetente">Usuário:</label>
 
-      <select name="remetente" onChange={(evt) => {getUserMessages(evt.target.value)}}>
+      <select name="remetente" onChange={(evt) => { getUserMessages(evt.target.value) }}>
       {users.length > 0 ? <option value="default">Selecione um usuário</option> : <option value="default">Nenhum usuário cadastrado!</option>}
 
-        {users.map( user => (
+        {users.map(user => (
         <option key={user.code} value={`${user.name}-${user.code}`}>{user.name} - {user.code}</option>
         ))}
       </select>
@@ -76,6 +53,7 @@ const MessageHistoryComponent: React.FC<IUsers> = ({users}) => {
                 <p>{'-'.repeat(100)}</p>
                 </Message>
             }
+            return false
           })}
           </Messages>
       </MessagesBox>

@@ -1,13 +1,9 @@
-import React from 'react';
-import MessageComponent from '../../components/message';
-import MessageHistoryComponent from '../../components/messageHistory';
-import SingUpComponent from '../../components/signup';
-import {Component, MainBox, Title, OptionsBox, Content, Options, Welcome }  from './styled';
-
-interface IUser {
-  name: string
-  code: string
-}
+import React from 'react'
+import MessageComponent from '../../components/message'
+import MessageHistoryComponent from '../../components/messageHistory'
+import SingUpComponent from '../../components/signup'
+import { Component, MainBox, Title, OptionsBox, Content, Options, Welcome } from './styled'
+import { IUser } from '../../interfaces/user'
 
 interface IHomeTemplate {
   users: IUser[]
@@ -21,32 +17,32 @@ const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel 
       <Title>MESSAGE SERVICE</Title>
       <Content>
         <Options>
-                <OptionsBox onClick={() => setShowPanel("signUp")}>
+                <OptionsBox onClick={() => setShowPanel('signUp')}>
                   Cadastrar Usuário
                 </OptionsBox>
-                <OptionsBox onClick={() => setShowPanel("message")}>
+                <OptionsBox onClick={() => setShowPanel('message')}>
                   Enviar Mensagem
                 </OptionsBox>
-                <OptionsBox onClick={() => setShowPanel("messageHistory")}>
+                <OptionsBox onClick={() => setShowPanel('messageHistory')}>
                   Ver histórico de mensagens
                 </OptionsBox>
-                <OptionsBox onClick={() => setShowPanel("Home")}>
+                <OptionsBox onClick={() => setShowPanel('Home')}>
                   Sair
                 </OptionsBox>
         </Options>
-        
-        {showPanel === "Home" && 
+
+        {showPanel === 'Home' &&
         <Welcome>
           <h2>Selecione uma opção para começar...</h2>
         </Welcome>}
-        
-        {showPanel === "signUp" && <SingUpComponent  setShowPanel={setShowPanel} />}
-        {showPanel === "message" && <MessageComponent users={users} />}
-        {showPanel === "messageHistory" && <MessageHistoryComponent users={users} />}
-        
+
+        {showPanel === 'signUp' && <SingUpComponent setShowPanel={setShowPanel} />}
+        {showPanel === 'message' && <MessageComponent users={users} />}
+        {showPanel === 'messageHistory' && <MessageHistoryComponent users={users} />}
+
     </Content>
     </MainBox>
   </Component>
 )
 
-export default HomeTemplate;
+export default HomeTemplate

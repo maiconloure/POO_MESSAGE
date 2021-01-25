@@ -42,7 +42,6 @@ export const Options = styled.div`
     justify-content: center;
 `
 
-
 export const OptionsBox = styled.button`
     background: #fff;
     font: 600 1.1rem Inter;

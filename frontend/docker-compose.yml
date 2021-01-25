@@ -1,14 +1,17 @@
 version: '3.7'
+
 services:
-    app:
-        container_name: dockerized-react-app
-        build:
-            context: .
-            dockerfile: Dockerfile
-        volumes:
-            - '.:/app'
-            - '/app/node_modules'
-        ports:
-            - '3001:3000'
-        environment:
-            - NODE_ENV=development
+  app:
+    container_name: react-app
+    build:
+        context: .
+        dockerfile: Dockerfile
+    command: yarn start
+    volumes:
+        - '.:/app'
+        - '/app/node_modules'
+    ports:
+        - '3000:3000'
+    environment:
+        - NODE_ENV=development
+        

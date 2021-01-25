@@ -1,9 +1,8 @@
-import React from 'react';
-import {Helmet, HelmetProvider } from 'react-helmet-async';
+import React from 'react'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { ToastProvider } from 'react-toast-notifications'
-import { GlobalStyle } from './styled';
-import Home from './pages/home';
-
+import { GlobalStyle } from './styled'
+import Home from './pages/home'
 
 const App: React.FC = () => {
   return (
@@ -24,7 +23,7 @@ const App: React.FC = () => {
       <GlobalStyle />
       </div>
     </HelmetProvider>
-  );
+  )
 }
 
-export default App;
+export default App
