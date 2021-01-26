@@ -1,4 +1,5 @@
 import Message, { messages } from '@models/Message'
+import { users } from '@models/User'
 import { IMessageDTO } from '../dtos/messageDTO'
 import { IFooasMessage, IGetFooasMessage } from '../interfaces/message'
 const fetch = require('node-fetch')
@@ -13,6 +14,11 @@ interface IMessageService {
 class MessageService implements IMessageService {
   public sendMessage ({ to, from, message }: IMessageDTO): void {
     const newMessage = new Message({ to, from, message })
+    for (const user of users) {
+      if (user.name === to.name) {
+        user.addMessage(newMessage)
+      }
+    }
     messages.push(newMessage)
   }
 
@@ -57,13 +63,9 @@ class MessageService implements IMessageService {
   }
 
   public getAllUserMessages (code: string) {
-    const userMessages = messages.filter(msg => {
-      const message = msg.getMessage()
-      if (message.to.code === code || message.from.code === code) {
-        return message
-      }
-      return false
-    })
+    const user = users.filter(user => user.code === code)[0]
+    const userMessages = user.getMessages()
+
     return userMessages
   }
 }

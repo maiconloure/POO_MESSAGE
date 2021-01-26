@@ -4,6 +4,7 @@ import { IUser } from '../interfaces/user'
 interface IUserModel {
   getUser(): IUser
   setUser(): void
+  getMessages(): Message[]
 }
 
 export class User implements IUserModel {
@@ -17,17 +18,21 @@ export class User implements IUserModel {
     this.messages = []
   }
 
-  getUser () {
+  public getUser () {
     return { name: this.name, code: this.code }
   }
 
-  setUser (name?: string, code?: string) {
+  public setUser (name?: string, code?: string) {
     this.name = name || this.name
     this.code = code || this.code
   }
 
-  addMessage (message: Message) {
+  public addMessage (message: Message) {
     this.messages.push(message)
+  }
+
+  public getMessages () {
+    return this.messages
   }
 }
 
