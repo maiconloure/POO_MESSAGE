@@ -32,10 +32,6 @@ export const Title = styled.h1`
     color: #FFF;
 `
 
-export const Content = styled.div`
-    
-`
-
 export const Options = styled.div`
     display: flex;
     align-items: center;

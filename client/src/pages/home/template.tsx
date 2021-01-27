@@ -2,20 +2,14 @@ import React from 'react'
 import MessageComponent from '../../components/message'
 import MessageHistoryComponent from '../../components/messageHistory'
 import SingUpComponent from '../../components/signup'
-import { Component, MainBox, Title, OptionsBox, Content, Options, Welcome } from './styled'
-import { IUser } from '../../interfaces/user'
-
-interface IHomeTemplate {
-  users: IUser[]
-  showPanel: string
-  setShowPanel:React.Dispatch<React.SetStateAction<string>>
-}
+import { Component, MainBox, Title, OptionsBox, Options, Welcome } from './styled'
+import { IHomeTemplate } from '../../interfaces/home'
 
 const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel }) => (
   <Component>
     <MainBox>
       <Title>MESSAGE SERVICE</Title>
-      <Content>
+      <div>
         <Options>
                 <OptionsBox onClick={() => setShowPanel('signUp')}>
                   Cadastrar Usuário
@@ -37,10 +31,12 @@ const HomeTemplate: React.FC<IHomeTemplate> = ({ users, showPanel, setShowPanel 
         </Welcome>}
 
         {showPanel === 'signUp' && <SingUpComponent setShowPanel={setShowPanel} />}
+
         {showPanel === 'message' && <MessageComponent users={users} />}
+
         {showPanel === 'messageHistory' && <MessageHistoryComponent users={users} />}
 
-    </Content>
+    </div>
     </MainBox>
   </Component>
 )

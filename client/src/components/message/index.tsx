@@ -105,8 +105,10 @@ const MessageComponent: React.FC<IUsers> = ({ users }) => {
         </select>
         <input name="subject" type="text" value={subject} placeholder="Assunto" onChange={(evt) => setSubject(evt.target.value)}/>
         </Select>
-            : <><label htmlFor="subject">Assunto</label>
-          <input name="subject" type="text" value={subject} onChange={(evt) => setSubject(evt.target.value)}/></>}
+            : <>
+            <label htmlFor="subject">Assunto</label>
+          <input name="subject" type="text" value={subject} onChange={(evt) => setSubject(evt.target.value)}/>
+          </>}
 
         <label htmlFor="message">Mensagem:</label>
         <textarea name="message" value={message} onChange={(evt) => setMessage(evt.target.value)}/>
