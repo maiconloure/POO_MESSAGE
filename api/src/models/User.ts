@@ -2,12 +2,12 @@ import Message from './Message'
 import { IUser } from '../interfaces/user'
 
 interface IUserModel {
-  getUser(): IUser
-  setUser(): void
+  // get user(): IUser
+  // set user(): void
   getMessages(): Message[]
 }
 
-export class User implements IUserModel {
+export default class User implements IUserModel {
   public name: string
   public code: string
   private messages: Message[]
@@ -18,13 +18,13 @@ export class User implements IUserModel {
     this.messages = []
   }
 
-  public getUser () {
+  get user (): IUser {
     return { name: this.name, code: this.code }
   }
 
-  public setUser (name?: string, code?: string) {
-    this.name = name || this.name
-    this.code = code || this.code
+  set user ({ name, code }: IUser) {
+    this.name = name
+    this.code = code
   }
 
   public addMessage (message: Message) {

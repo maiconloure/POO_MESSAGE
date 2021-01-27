@@ -1,7 +1,8 @@
-import Message, { messages } from '@models/Message'
+import Message from '@models/Message'
 import { users } from '@models/User'
 import { IMessageDTO } from '../dtos/messageDTO'
-import { IFooasMessage, IGetFooasMessage } from '../interfaces/message'
+import { IFooasMessage, IGetFooasMessage } from '@interfaces/fooas'
+import Memory from '../infra/data/memory'
 const fetch = require('node-fetch')
 
 interface IMessageService {
@@ -19,7 +20,7 @@ class MessageService implements IMessageService {
         user.addMessage(newMessage)
       }
     }
-    messages.push(newMessage)
+    Memory.messages = [newMessage]
   }
 
   public async getFooasOperations () {

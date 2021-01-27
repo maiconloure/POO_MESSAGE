@@ -1,5 +1,6 @@
-import { User, users } from '@models/User'
+import User, { users } from '@models/User'
 import { IUser } from '../interfaces/user'
+import Memory from '../infra/data/memory'
 
 interface IUserService {
   signup({ name, code }: IUser): void
@@ -9,13 +10,12 @@ interface IUserService {
 class UserService implements IUserService {
   public signup ({ name, code }: IUser): void {
     const user = new User({ name, code })
-    users.push(user)
+    Memory.users = [user]
   }
 
   public checkUserRegistered (data: IUser): boolean {
     for (const user of users) {
-      const userData = user.getUser()
-      if (data.code === userData.code) {
+      if (data.code === user.code) {
         return true
       }
     }

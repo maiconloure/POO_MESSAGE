@@ -1,7 +1,8 @@
-import { IMessageTo, IMessageFrom, IMessage } from '../interfaces/message'
+import { IMessage } from '../interfaces/message'
+import User from '@models/User'
 
 export interface IMessageDTO {
-  to: IMessageTo
-  from: IMessageFrom
+  to: User
+  from: User
   message: IMessage
 }

@@ -3,17 +3,13 @@ import UserService from '@services/UserService'
 import { Request, Response } from 'express'
 
 export default class UserController {
-  private userService: UserService
+  static userService = new UserService()
 
-  constructor () {
-    this.userService = new UserService()
-  }
-
-  public async index (req: Request, res: Response) {
+  public static async index (req: Request, res: Response) {
     return res.json(users)
   }
 
-  public async create (req: Request, res: Response) {
+  public static async create (req: Request, res: Response) {
     const data = req.body
 
     if (!this.userService.checkUserRegistered(data)) {

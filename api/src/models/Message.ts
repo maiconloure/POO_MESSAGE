@@ -1,14 +1,15 @@
-import { IMessageTo, IMessageFrom, IMessage } from '../interfaces/message'
+import { IMessage } from '../interfaces/message'
 import { IMessageDTO } from '../dtos/messageDTO'
 
+import User from '@models/User'
+
 interface IMessageModel {
-  getMessage(): IMessageDTO
-  setMessage({ to, from, message }: IMessageDTO): void
+  Message: IMessageDTO
 }
 
 export default class Message implements IMessageModel {
-  private to: IMessageTo
-  private from: IMessageFrom
+  private to: User
+  private from: User
   private message: IMessage
 
   constructor ({ to, from, message }: IMessageDTO) {
@@ -17,11 +18,11 @@ export default class Message implements IMessageModel {
     this.message = message
   }
 
-  public getMessage () {
+  get Message (): IMessageDTO {
     return { to: this.to, from: this.from, message: this.message }
   }
 
-  public setMessage ({ to, from, message }: IMessageDTO) {
+  set Message ({ to, from, message }: IMessageDTO) {
     this.to = to
     this.from = from
     this.message = message
