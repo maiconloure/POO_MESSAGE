@@ -1,6 +1,6 @@
 import { Request, Response, Application } from 'express'
-import MessageController from '@controllers/MessageController'
-import UsersController from '@controllers/UsersController'
+import MessageController from '@controllers/Message/MessageController'
+import UsersController from '@controllers/User/UsersController'
 
 export default class Routes {
   public routes (app: Application): void {

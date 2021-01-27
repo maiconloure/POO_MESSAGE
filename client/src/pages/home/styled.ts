@@ -58,7 +58,5 @@ export const OptionsBox = styled.button`
 
 export const Welcome = styled.div`
     margin: auto;
-    h2 {
-        font: 500 1.6rem Inter;
-    }
+    h2 { font: 500 1.6rem Inter; }
 `

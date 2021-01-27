@@ -48,7 +48,7 @@ export const Messages = styled.div`
     justify-content: flex-start;
 `
 
-export const Message = styled.div`
+export const MessageComponent = styled.div`
     width: 100%;
     font: 500 0.9rem Arial;
     color: #000;

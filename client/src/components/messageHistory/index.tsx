@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Component, Select, MessagesBox, SectionBox, Messages, Message } from './styled'
+import { Component, Select, MessagesBox, SectionBox, Messages } from './styled'
+import Message from './message'
 import API from '../../services/api'
 import { IUsers } from '../../interfaces/user'
 import { IMessageDTO } from '../../interfaces/message'
@@ -39,19 +40,9 @@ const MessageHistoryComponent: React.FC<IUsers> = ({ users }) => {
           <Messages>
           {messages.map((getMessage, index) => {
             if (getMessage.from.code === currentUser[1]) {
-              return <Message key={index}>
-                <p>{getMessage.message.subject} - Enviada</p>
-                <p>Enviada por <b>{getMessage.from.name}</b> | Recebida por: <b>{getMessage.to.name}</b></p>
-                <i>{getMessage.message.body}</i>
-                <p>{'-'.repeat(100)}</p>
-                </Message>
+              return <Message key={index} getMessage={getMessage} />
             } else if (getMessage.to.code === currentUser[1]) {
-              return <Message key={index}>
-                <p>{getMessage.message.subject} - Recebida</p>
-                <p>Enviada por <b>{getMessage.from.name}</b> | Recebida por: <b>{getMessage.to.name}</b></p>
-                <i>{getMessage.message.body}</i>
-                <p>{'-'.repeat(100)}</p>
-                </Message>
+              return <Message key={index} getMessage={getMessage} />
             }
             return false
           })}

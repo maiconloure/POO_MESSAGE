@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import Routes from './routes/routes'
+import Routes from './routes'
 
 class App {
   public express:express.Application
