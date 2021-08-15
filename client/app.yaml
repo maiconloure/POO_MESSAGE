@@ -1,0 +1,20 @@
+runtime: nodejs14
+
+default_expiration: '365d 24h'
+
+env_variables:
+  PORT: 3000
+  API_PORT: 3333
+
+handlers:
+  # Serve all static files with url ending with a file extension
+  - url: /(.*\..+)$
+    static_files: dist/\1
+    upload: dist/(.*\..+)$   
+    http_headers:
+      Cache-Control: private, max-age=31536000
+  # Catch all handler to index.html
+  - url: /.*
+    secure: always
+    static_files: dist/index.html
+    upload: dist/index.html
